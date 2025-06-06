@@ -10,7 +10,7 @@ from datetime import datetime
 # ============= USER CONFIGURABLE SETTINGS =============
 
 # Frame Sampling Method Selection
-SAMPLING_METHOD = "uniform"  # Options: "kmeans", "uniform"
+SAMPLING_METHOD = "kmeans"  # Options: "kmeans", "uniform"
 
 # Video File Paths
 VIDEO_PATHS = [
