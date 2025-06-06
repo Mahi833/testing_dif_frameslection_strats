@@ -22,131 +22,22 @@ load_dotenv()
 # Get configuration
 config = get_config()
 
-# ============= USER CONFIGURABLE SETTINGS =============
+# ============= CONFIGURATION FROM CONFIG.PY =============
 
-# Frame Sampling Method Selection
-SAMPLING_METHOD = "kmeans"  # Options: "uniform", "random", "kmeans", "entropy", "optical_flow", "edge_density"
-
-# Method-specific parameters
-SAMPLING_PARAMS = {
-    "uniform": {},
-    "random": {"seed": 42},
-    "kmeans": {"step": 1, "resizewidth": 30, "color": False, "batchsize": 100, "max_iter": 50},
-    "entropy": {"step": 1, "resizewidth": 64},
-    "optical_flow": {"step": 1},
-    "edge_density": {"step": 1}
-}
-
-# Frame Input Settings
-FRAMES_BASE_DIR = config['frames_output_dir']
-OUTPUT_FOLDER_NAME = f"{SAMPLING_METHOD}_strategy"  # Will create folder based on method
-VIDEOS_TO_ANALYZE = [
-    "edited_mmc1_frames",
-    "edited_mmc2_frames", 
-    "edited_mmc3_frames",
-    "edited_mmc4_frames",
-    "edited_mmc5_frames"
-]
+# All settings now come from config.py - no user configuration here
+LATEST_FRAMES_DIR = config['latest_frames_dir']
+VIDEOS_TO_ANALYZE = config['videos_to_analyze']
 
 # Analysis Settings
-FRAMES_PER_ANALYSIS = None  # Send ALL K-means selected frames - this is the whole point!
+FRAMES_PER_ANALYSIS = None  # Send ALL selected frames - this is the whole point!
 FRAME_FORMAT = "*.jpg"    # Frame file format
 
-# Prompt Options for Fall Detection
-PROMPTS = {
-    "comprehensive_fall_analysis": """FOCUS: Look for ELDERLY PERSON in frames. Ignore background, furniture, other people unless directly involved in fall.
-
-FRAME ANALYSIS PRIORITY:
-1. Locate the PRIMARY SUBJECT (elderly person)
-2. Track their body position across frames
-3. Identify any loss of balance or ground contact
-4. Determine cause and impact points
-
-VISUAL CUES TO IDENTIFY FALLS:
-- Person transitioning from upright to lower position
-- Body tilting beyond normal balance range
-- Arms reaching out for support/protection
-- Knees buckling or legs giving way
-- Person on ground/floor when previously standing
-- Protective responses (hands out, bracing)
-- Balance recovery attempts
-
-ANALYZE THESE FRAMES FOR THE ELDERLY PERSON ONLY:
-
-FALL STATUS: [NONE/PRE-FALL/ACTIVE-FALL/POST-FALL] (X%)
-- NONE: Person stable, normal activities
-- PRE-FALL: Loss of balance, reaching for support, unsteady
-- ACTIVE-FALL: Person mid-fall, losing contact with ground
-- POST-FALL: Person on ground, attempting to get up
-
-FALL CAUSE: [Select ONE with confidence %]
-- SLIP: Foot sliding/loss of traction (X%)
-- TRIP: Foot collision with object/person/own foot (X%)  
-- HIT: Body above knee collides with object/person (X%)
-- SYNCOPE: Sudden loss of consciousness/fainting (X%)
-- SEIZURE: Neurological episode causing fall (X%)
-- ORTHOSTATIC: Blood pressure drop causing dizziness (X%)
-- MUSCLE_WEAKNESS: Leg/core strength failure (X%)
-- BALANCE_LOSS: Vestibular/proprioceptive failure (X%)
-- MEDICATION: Drug-induced impairment (X%)
-- CARDIAC: Heart rhythm/output problem (X%)
-- ENVIRONMENTAL: Poor lighting/surfaces/obstacles (X%)
-- BEHAVIORAL: Risk-taking/unsafe activity (X%)
-- UNKNOWN: Cause not determinable (X%)
-
-BODY CONTACT: [First impact point with confidence %]
-- HEAD: Head/face first contact (X%)
-- SHOULDER: Shoulder first contact (X%)
-- ARM: Arm/hand/elbow first contact (X%)
-- TORSO: Chest/abdomen first contact (X%)
-- HIP: Hip/pelvis first contact (X%)
-- BACK: Back/spine first contact (X%)
-- KNEE: Knee first contact (X%)
-- MULTIPLE: Multiple simultaneous contact (X%)
-- NONE: No ground contact visible (X%)
-
-INTRINSIC/EXTRINSIC: [INTRINSIC/EXTRINSIC/MIXED] (X%)
-- INTRINSIC: Person's internal factors (health, medication, weakness)
-- EXTRINSIC: Environmental factors (slippery floor, obstacles, lighting)
-- MIXED: Combination of both factors
-
-INJURY RISK: [LOW/MEDIUM/HIGH] (X%)
-- LOW: Soft landing, slow fall, protective response successful
-- MEDIUM: Moderate impact, some protection, controlled descent
-- HIGH: Hard impact, no protection, head/hip contact, fast fall
-
-REASON: [One sentence explanation max 15 words]
-
-IGNORE: Other people, background objects, furniture unless causing the fall.
-FOCUS ONLY: The elderly person and their movement/position changes.""",
-    
-    "simple_fall_detection": """Look at these frames. Answer in this exact format:
-
-FALL: YES/NO (X%)
-CAUSE: [SLIP/TRIP/HIT/SYNCOPE/WEAKNESS/BALANCE/UNKNOWN] (X%)
-CONTACT: [HEAD/SHOULDER/ARM/HIP/BACK/KNEE/NONE] (X%)
-TYPE: [INTRINSIC/EXTRINSIC] (X%)
-
-One word answers. Percentages required."""
-}
-
-# Select which prompt to use from config
+# All settings from config.py
 SELECTED_PROMPT = config['analysis_prompt_type']
-ANALYSIS_PROMPT = PROMPTS[SELECTED_PROMPT]
-
-# AI Model Settings
+ANALYSIS_PROMPT = config['analysis_prompts'][SELECTED_PROMPT]
 TEMPERATURE = config['chatgpt_temperature']
 MAX_TOKENS = config['chatgpt_max_tokens'] 
 MODEL_NAME = config['chatgpt_model']
-
-# Output Settings - no file saving
-SAVE_DETAILED_LOGS = False
-IMAGE_QUALITY = 95
-
-# API Limits
-MAX_INPUT_TOKENS = 128000
-MAX_OUTPUT_TOKENS = 4096
-
 API_OUTPUT_DIR = config['api_call_output_dir']
 
 # ============= FUNCTIONS =============
@@ -228,7 +119,8 @@ def save_analysis_results(video_name, analysis_text, frame_paths):
         f.write(f"Frames analyzed: {len(frame_paths)}\n")
         f.write(f"Model: {MODEL_NAME}\n")
         f.write(f"Temperature: {TEMPERATURE}\n")
-        f.write(f"Max tokens: {MAX_TOKENS}\n\n")
+        f.write(f"Max tokens: {MAX_TOKENS}\n")
+        f.write(f"Source frames directory: {LATEST_FRAMES_DIR}\n\n")
         
         f.write(f"Frame list:\n")
         for i, frame_path in enumerate(frame_paths):
@@ -248,7 +140,19 @@ def main():
     
     print(f"ChatGPT Frame Analysis - {config['sampling_method'].upper()} Method")
     print("=" * 50)
-    print(f"Input directory: {FRAMES_BASE_DIR}")
+    
+    # Check if frames directory exists
+    if not LATEST_FRAMES_DIR:
+        print(f"ERROR: No frames directory found for {config['sampling_method']} method!")
+        print("Please run frame_extractor.py first to generate frames.")
+        return
+    
+    if not os.path.exists(LATEST_FRAMES_DIR):
+        print(f"ERROR: Frames directory not found: {LATEST_FRAMES_DIR}")
+        print("Please run frame_extractor.py first to generate frames.")
+        return
+    
+    print(f"Using frames from: {LATEST_FRAMES_DIR}")
     print(f"Selected prompt: {SELECTED_PROMPT}")
     print(f"Frames per analysis: ALL {config['sampling_method']} selected frames")
     print()
@@ -265,9 +169,9 @@ def main():
     for video_folder in VIDEOS_TO_ANALYZE:
         print(f"Processing: {video_folder}")
         
-        # FIXED: Use correct path structure that matches frame_extractor output
+        # Use latest frames directory structure
         video_name = video_folder.replace("_frames", "")  # edited_mmc1_frames -> edited_mmc1
-        folder_path = os.path.join(FRAMES_BASE_DIR, f"{video_name}_{config['sampling_method']}")
+        folder_path = os.path.join(LATEST_FRAMES_DIR, f"{video_name}_{config['sampling_method']}")
         
         if not os.path.exists(folder_path):
             print(f"  Folder not found: {folder_path}")
@@ -282,9 +186,9 @@ def main():
             all_results[video_folder] = {"status": "no_frames"}
             continue
         
-        print(f"  Found {len(frame_files)} K-means selected frames")
+        print(f"  Found {len(frame_files)} {config['sampling_method']} selected frames")
         
-        # Use ALL K-means selected frames - that's the whole point of this method!
+        # Use ALL selected frames - that's the whole point of this method!
         frames_to_analyze = frame_files
         
         try:
@@ -316,7 +220,7 @@ def main():
         
         print()
     
-    # Create summary report in API output directory
+    # Create summary report in timestamped API output directory
     summary_path = os.path.join(API_OUTPUT_DIR, f"{config['sampling_method']}_analysis_summary.txt")
     os.makedirs(API_OUTPUT_DIR, exist_ok=True)
     
@@ -328,7 +232,9 @@ def main():
         f.write(f"Model: {MODEL_NAME}\n")
         f.write(f"Temperature: {TEMPERATURE}\n")
         f.write(f"Max tokens: {MAX_TOKENS}\n")
-        f.write(f"Analysis date: {time.strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+        f.write(f"Analysis date: {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
+        f.write(f"Source frames: {LATEST_FRAMES_DIR}\n")
+        f.write(f"Timestamp: {os.path.basename(API_OUTPUT_DIR)}\n\n")
         
         successful = 0
         total_frames = 0

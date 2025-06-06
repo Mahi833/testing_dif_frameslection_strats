@@ -1,2 +1,4 @@
 .env 
 .env 
+output/frames/*/ 
+output/api_call_output/*/ 
