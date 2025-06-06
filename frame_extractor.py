@@ -246,7 +246,8 @@ if __name__ == "__main__":
         print(f"\nProcessing Video {i}/{len(config['video_paths'])}: {Path(video_path).name}")
         
         video_name = Path(video_path).stem
-        output_folder = os.path.join(config['frames_output_dir'], f"{video_name}_{config['sampling_method']}")  # FIXED FOLDER STRUCTURE
+        # Use timestamped output structure - each video gets its own folder within timestamp
+        output_folder = os.path.join(config['frames_output_dir'], f"{video_name}_{config['sampling_method']}")
         
         try:
             saved_files = extract_frames(video_path, output_folder)
@@ -262,7 +263,7 @@ if __name__ == "__main__":
                 "error": str(e)
             }
     
-    # Create summary report
+    # Create summary report in timestamped directory
     summary_path = os.path.join(config['frames_output_dir'], f"{config['sampling_method']}_extraction_summary.txt")
     os.makedirs(config['frames_output_dir'], exist_ok=True)
     
@@ -270,7 +271,8 @@ if __name__ == "__main__":
         f.write(f"{config['sampling_method'].upper()} Frame Extraction Summary\n")
         f.write("="*40 + "\n\n")
         f.write(f"Method: {config['sampling_method']}\n")
-        f.write(f"Parameters: {config['method_params']}\n\n")
+        f.write(f"Parameters: {config['method_params']}\n")
+        f.write(f"Timestamp: {os.path.basename(config['frames_output_dir'])}\n\n")
         
         total_frames = 0
         successful_videos = 0
