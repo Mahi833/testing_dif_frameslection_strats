@@ -1,0 +1,37 @@
+KMEANS Frame Extraction Log
+================================
+Video: C:\Users\Mahan\Desktop\steves_fall_vids\edited_vids\edited_mmc2.mp4
+Video name: edited_mmc2
+Method: kmeans
+Video duration: 7.88 seconds (0.13 minutes)
+Total video frames: 197
+Video FPS: 25.00
+Processing time: 1.91 seconds
+Frames requested: 20
+Frames extracted: 20
+Video range: 0.0% to 100.0%
+Method parameters: {'step': 1, 'resizewidth': 30, 'color': False, 'batchsize': 100, 'max_iter': 50}
+
+Extracted frames with timestamps:
+#    Frame Index  Timestamp       Filename                                          
+---- ------------ --------------- --------------------------------------------------
+1    4            00m00.16s       edited_mmc2_kmeans_frame_001_of_020_idx_000004_time_00m00.16s.jpg
+2    19           00m00.76s       edited_mmc2_kmeans_frame_002_of_020_idx_000019_time_00m00.76s.jpg
+3    24           00m00.96s       edited_mmc2_kmeans_frame_003_of_020_idx_000024_time_00m00.96s.jpg
+4    57           00m02.28s       edited_mmc2_kmeans_frame_004_of_020_idx_000057_time_00m02.28s.jpg
+5    65           00m02.60s       edited_mmc2_kmeans_frame_005_of_020_idx_000065_time_00m02.60s.jpg
+6    83           00m03.32s       edited_mmc2_kmeans_frame_006_of_020_idx_000083_time_00m03.32s.jpg
+7    93           00m03.72s       edited_mmc2_kmeans_frame_007_of_020_idx_000093_time_00m03.72s.jpg
+8    101          00m04.04s       edited_mmc2_kmeans_frame_008_of_020_idx_000101_time_00m04.04s.jpg
+9    109          00m04.36s       edited_mmc2_kmeans_frame_009_of_020_idx_000109_time_00m04.36s.jpg
+10   110          00m04.40s       edited_mmc2_kmeans_frame_010_of_020_idx_000110_time_00m04.40s.jpg
+11   123          00m04.92s       edited_mmc2_kmeans_frame_011_of_020_idx_000123_time_00m04.92s.jpg
+12   128          00m05.12s       edited_mmc2_kmeans_frame_012_of_020_idx_000128_time_00m05.12s.jpg
+13   130          00m05.20s       edited_mmc2_kmeans_frame_013_of_020_idx_000130_time_00m05.20s.jpg
+14   138          00m05.52s       edited_mmc2_kmeans_frame_014_of_020_idx_000138_time_00m05.52s.jpg
+15   145          00m05.80s       edited_mmc2_kmeans_frame_015_of_020_idx_000145_time_00m05.80s.jpg
+16   154          00m06.16s       edited_mmc2_kmeans_frame_016_of_020_idx_000154_time_00m06.16s.jpg
+17   161          00m06.44s       edited_mmc2_kmeans_frame_017_of_020_idx_000161_time_00m06.44s.jpg
+18   172          00m06.88s       edited_mmc2_kmeans_frame_018_of_020_idx_000172_time_00m06.88s.jpg
+19   176          00m07.04s       edited_mmc2_kmeans_frame_019_of_020_idx_000176_time_00m07.04s.jpg
+20   180          00m07.20s       edited_mmc2_kmeans_frame_020_of_020_idx_000180_time_00m07.20s.jpg

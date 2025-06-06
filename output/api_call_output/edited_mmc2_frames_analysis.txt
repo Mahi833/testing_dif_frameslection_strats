@@ -1,0 +1,48 @@
+ChatGPT Fall Detection Analysis
+==============================
+
+Video: edited_mmc2_frames
+Sampling method: uniform
+Prompt type: comprehensive_fall_analysis
+Frames analyzed: 20
+Model: gpt-4o
+Temperature: 0.1
+Max tokens: 2000
+
+Frame list:
+   1. edited_mmc2_uniform_frame_001_of_020_idx_000000_time_00m00.00s.jpg
+   2. edited_mmc2_uniform_frame_002_of_020_idx_000010_time_00m00.40s.jpg
+   3. edited_mmc2_uniform_frame_003_of_020_idx_000020_time_00m00.80s.jpg
+   4. edited_mmc2_uniform_frame_004_of_020_idx_000030_time_00m01.20s.jpg
+   5. edited_mmc2_uniform_frame_005_of_020_idx_000041_time_00m01.64s.jpg
+   6. edited_mmc2_uniform_frame_006_of_020_idx_000051_time_00m02.04s.jpg
+   7. edited_mmc2_uniform_frame_007_of_020_idx_000061_time_00m02.44s.jpg
+   8. edited_mmc2_uniform_frame_008_of_020_idx_000072_time_00m02.88s.jpg
+   9. edited_mmc2_uniform_frame_009_of_020_idx_000082_time_00m03.28s.jpg
+  10. edited_mmc2_uniform_frame_010_of_020_idx_000092_time_00m03.68s.jpg
+  11. edited_mmc2_uniform_frame_011_of_020_idx_000103_time_00m04.12s.jpg
+  12. edited_mmc2_uniform_frame_012_of_020_idx_000113_time_00m04.52s.jpg
+  13. edited_mmc2_uniform_frame_013_of_020_idx_000123_time_00m04.92s.jpg
+  14. edited_mmc2_uniform_frame_014_of_020_idx_000134_time_00m05.36s.jpg
+  15. edited_mmc2_uniform_frame_015_of_020_idx_000144_time_00m05.76s.jpg
+  16. edited_mmc2_uniform_frame_016_of_020_idx_000154_time_00m06.16s.jpg
+  17. edited_mmc2_uniform_frame_017_of_020_idx_000165_time_00m06.60s.jpg
+  18. edited_mmc2_uniform_frame_018_of_020_idx_000175_time_00m07.00s.jpg
+  19. edited_mmc2_uniform_frame_019_of_020_idx_000185_time_00m07.40s.jpg
+  20. edited_mmc2_uniform_frame_020_of_020_idx_000196_time_00m07.84s.jpg
+
+Analysis Results:
+================
+**FALL STATUS:** ACTIVE-FALL (90%)
+
+**FALL CAUSE:** TRIP (85%)
+
+**BODY CONTACT:** BACK (80%)
+
+**INTRINSIC/EXTRINSIC:** EXTRINSIC (85%)
+
+**INJURY RISK:** MEDIUM (75%)
+
+**REASON:** Tripped over dog, causing backward fall onto the floor.
+
+Analysis completed at: 2025-06-05 16:03:03

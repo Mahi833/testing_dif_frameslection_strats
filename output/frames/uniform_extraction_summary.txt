@@ -1,0 +1,36 @@
+UNIFORM Frame Extraction Summary
+========================================
+
+Method: uniform
+Parameters: {}
+
+Video: edited_mmc1
+  Status: SUCCESS
+  Frames extracted: 20
+  Output: C:\Users\Mahan\Desktop\Test frame selection options (1-5 videos)\output\frames\edited_mmc1_uniform
+
+Video: edited_mmc2
+  Status: SUCCESS
+  Frames extracted: 20
+  Output: C:\Users\Mahan\Desktop\Test frame selection options (1-5 videos)\output\frames\edited_mmc2_uniform
+
+Video: edited_mmc3
+  Status: SUCCESS
+  Frames extracted: 20
+  Output: C:\Users\Mahan\Desktop\Test frame selection options (1-5 videos)\output\frames\edited_mmc3_uniform
+
+Video: edited_mmc4
+  Status: SUCCESS
+  Frames extracted: 20
+  Output: C:\Users\Mahan\Desktop\Test frame selection options (1-5 videos)\output\frames\edited_mmc4_uniform
+
+Video: edited_mmc5
+  Status: SUCCESS
+  Frames extracted: 20
+  Output: C:\Users\Mahan\Desktop\Test frame selection options (1-5 videos)\output\frames\edited_mmc5_uniform
+
+SUMMARY:
+  Videos processed: 5
+  Successful: 5
+  Failed: 0
+  Total frames extracted: 100
