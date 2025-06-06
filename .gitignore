@@ -1,4 +1,4 @@
+# Keep method folders but ignore timestamped subfolders 
 .env 
-.env 
-output/frames/*/ 
-output/api_call_output/*/ 
+output/frames/*/*/ 
+output/api_call_output/*/*/ 
